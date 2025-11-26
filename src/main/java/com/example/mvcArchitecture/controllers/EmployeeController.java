@@ -1,5 +1,6 @@
 package com.example.mvcArchitecture.controllers;
 
+import com.example.mvcArchitecture.Services.EmployeeService;
 import com.example.mvcArchitecture.dto.EmployeeDTO;
 import com.example.mvcArchitecture.entity.EmployeeEntity;
 import com.example.mvcArchitecture.repositories.EmployeeRepository;
@@ -12,27 +13,27 @@ import java.util.List;
 @RequestMapping(path = "/employees")
 public class EmployeeController {
 
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
     @GetMapping(path = "/{employeeId}")
-    public EmployeeEntity getEmployeeById(@PathVariable(name = "employeeId") Long id) {
-        return employeeRepository.findById(id).orElse(null);
+    public EmployeeDTO getEmployeeById(@PathVariable(name = "employeeId") Long id) {
+        return employeeService.getEmployeeById(id);
     }
 
 //    http://localhost:8080/employees?age=12&sortBy=age
     @GetMapping
-    public List<EmployeeEntity> getAllEmployees(@RequestParam(required = false) Integer age,
+    public List<EmployeeDTO> getAllEmployees(@RequestParam(required = false) Integer age,
                                                 @RequestParam(required = false) String sortBy) {
-        return employeeRepository.findAll();
+        return employeeService.getAllEmployees();
     }
 
     @PostMapping
-    public EmployeeEntity createEmployee(@RequestBody EmployeeEntity inputEmployee) {
-        return employeeRepository.save(inputEmployee);
+    public EmployeeDTO createEmployee(@RequestBody EmployeeDTO inputEmployee) {
+        return employeeService.createEmployee(inputEmployee);
     }
 
     @PutMapping
