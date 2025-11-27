@@ -31,7 +31,7 @@ public class EmployeeService {
     }
 
     public List<EmployeeDTO> getAllEmployees() {
-        List<EmployeeEntity> employeeEntities= employeeRepository.findAll();
+        List<EmployeeEntity> employeeEntities= employeeRepository. findAll();
         return employeeEntities
                 .stream()
                 .map(employeeEntity -> modelMapper.map(employeeEntity,EmployeeDTO.class))
