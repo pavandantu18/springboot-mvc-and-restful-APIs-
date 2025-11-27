@@ -3,6 +3,7 @@ package com.example.mvcArchitecture.controllers;
 import com.example.mvcArchitecture.Services.EmployeeService;
 import com.example.mvcArchitecture.dto.EmployeeDTO;
 import com.example.mvcArchitecture.entity.EmployeeEntity;
+import com.example.mvcArchitecture.exceptions.ResourceNotFoundException;
 import com.example.mvcArchitecture.repositories.EmployeeRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -29,8 +31,9 @@ public class EmployeeController {
         Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(id);
         return employeeDTO.
                 map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1)).
-                orElse(ResponseEntity.notFound().build());
+                orElseThrow(() -> new ResourceNotFoundException("Employeeee not found with id " + id));
     }
+
 
 //    http://localhost:8080/employees?age=12&sortBy=age
     @GetMapping
