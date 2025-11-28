@@ -71,7 +71,6 @@ public class EmployeeService {
         return false;
     }
 
-
     public EmployeeDTO updatePartialEmployeeById(Long employeeId, Map<String, Object> updates) {
         isExistsByEmployeeId(employeeId);
         EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).orElse(null);
